@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Digital Clock</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            font-family: Arial, sans-serif;
+        }
+
+        .clock-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        h1 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 25px;
+            letter-spacing: 3px;
+        }
+
+        .clock {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .time {
+            color: #00ffcc;
+            font-size: 55px;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+
+        .separator {
+            color: white;
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        .ampm {
+            color: #ffcc66;
+            font-size: 22px;
+            font-weight: bold;
+            margin-left: 8px;
+            align-self: flex-end;
+            margin-bottom: 12px;
+        }
+
+        .date {
+            color: #ddd;
+            margin-top: 25px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .clock-container {
+                padding: 25px 15px;
+            }
+
+            .time {
+                font-size: 36px;
+            }
+
+            .separator {
+                font-size: 34px;
+            }
+
+            .ampm {
+                font-size: 16px;
+                margin-left: 3px;
+                margin-bottom: 7px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="clock-container">
+        <h1>DIGITAL CLOCK</h1>
+
+        <div class="clock">
+            <span class="time" id="hours">00</span>
+            <span class="separator">:</span>
+            <span class="time" id="minutes">00</span>
+            <span class="separator">:</span>
+            <span class="time" id="seconds">00</span>
+            <span class="ampm" id="ampm">AM</span>
+        </div>
+
+        <div class="date" id="date"></div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // Determine AM or PM
+            const ampm = hours >= 12 ? "PM" : "AM";
+
+            // Convert to 12-hour format
+            hours = hours % 12;
+            hours = hours === 0 ? 12 : hours;
+
+            // Add leading zeros
+            document.getElementById("hours").textContent =
+                String(hours).padStart(2, "0");
+
+            document.getElementById("minutes").textContent =
+                String(minutes).padStart(2, "0");
+
+            document.getElementById("seconds").textContent =
+                String(seconds).padStart(2, "0");
+
+            document.getElementById("ampm").textContent = ampm;
+
+            // Display current date
+            document.getElementById("date").textContent =
+                now.toLocaleDateString(undefined, {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                });
+        }
+
+        // Update immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+
+</body>
+</html>
